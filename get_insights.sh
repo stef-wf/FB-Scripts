@@ -2,13 +2,19 @@
 filecontent=( `cat "insights_logfile" `)    
 for line in "${filecontent[@]}"
 do
-	
+
+#insights_logfile must contain four pieces of information separated by commas. fbid, access token, start date, and end date
+#date format =>  2011-01-01 
+
 STR_ARRAY=(`echo $line | tr "," "\n"`)
 fbid=${STR_ARRAY[0]}
 token=${STR_ARRAY[1]}
+start_date=${STR_ARRAY[2]}
+end_date=${STR_ARRAY[3]}
 
-curl "https://graph.facebook.com/$fbid/insights/?access_token=$token" | ruby -e "require 'rubygems'; 
+curl "https://graph.facebook.com/$fbid/insights/?since=$start_date&until=$end_date/access_token=$token" | ruby -e "require 'rubygems'; 
 require 'json'; 
+
 
 
 insights = JSON.parse(gets);
