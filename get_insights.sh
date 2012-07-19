@@ -12,7 +12,7 @@ token=${STR_ARRAY[1]}
 start_date=${STR_ARRAY[2]}
 end_date=${STR_ARRAY[3]}
 
-curl "https://graph.facebook.com/$fbid/insights/?since=$start_date&until=$end_date/access_token=$token" | ruby -e "require 'rubygems'; 
+curl "https://graph.facebook.com/$fbid/insights/?since=$start_date&until=$end_date&access_token=$token" | ruby -e "require 'rubygems'; 
 require 'json'; 
 
 
