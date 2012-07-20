@@ -16,18 +16,22 @@ curl "https://graph.facebook.com/$fbid/insights/page_tab_views_login_top_unique/
 require 'json'; 
 
 insights = JSON.parse(gets);
-			insights['data'].each do |value|
-				print value['name']
+			insights['data'].each do |item|
+
+			 	item['values'].each do |stuff|
+				print item['name']
 				print ','
-				print value['title']
+				print item['title']
 				print ','
-				print value['period']
+				print item['period']
 				print ','
-				print value['id']
+				print item['id']
 				print ','
-				for value['values'].each do |stuff|
-					print stuff.keys
-				end
+			 		
+			 		print stuff['end_time']
+			 		print ','
+			 		puts stuff['value'].keys
+			 	end	
 				print ','
 			end	
 			puts '' 
