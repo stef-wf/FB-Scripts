@@ -1,13 +1,11 @@
-!/bin/bash
-filecontent=( `cat "tab_views_logfile" `)    
+#!/bin/bash
+filecontent=( `cat "tab_insights_logfile" `)    
 for line in "${filecontent[@]}"
 do
-#insights_logfile must contain two pieces of information separated by commas. fbid, access token
-
+	
 STR_ARRAY=(`echo $line | tr "," "\n"`)
 fbid=${STR_ARRAY[0]}
 token=${STR_ARRAY[1]}
-
 
 #here are default FBID and token values for the wildfire page. uncomment these and comment everything above this line if you're testing 
 #fbid=5423913255
@@ -17,27 +15,35 @@ curl "https://graph.facebook.com/$fbid/insights/page_tab_views_login_top_unique/
 require 'json'; 
 
 insights = JSON.parse(gets);
+		if insights['data'].nil?  #edge case for when we have non-working tokens
+			puts 'no data,${fbid}'
+			else 
 			insights['data'].each do |item|
 			 	item['values'].each do |stuff|
 			 		stuff['value'].each do |tabs, tabvalues|
-			 			#this first line gives you the fbid
-						print item['id'].split('/').first 
-						print ','
-						print item['name']
-						print ','
-						print item['title']
-						print ','
-						print item['id']
-						print ','
-			 			print stuff['end_time']
-			 			print ','
-			 			print tabs
-			 			print ','
-			 			print tabvalues
-			 			puts ','
-			 		end
+			 			if tabs.nil? 
+			 				puts ''
+			 				else 	
+				 				#this first line gives you the fbid
+								print item['id'].split('/').first 
+								print ','
+								print item['name']
+								print ','
+								print item['title']
+								print ','
+								print item['id']
+								print ','
+				 				print stuff['end_time']
+				 				print ','
+				 				print tabs
+				 				print ','
+				 				print tabvalues
+				 				puts ''
+				 		end 	
+				 	end
 			 	end	
 			end	
+		end	
 	
 		
 ">>insights6.csv
